@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>KaziLink · Kenyan job board</title>
+  <!-- Google Font & simple CSS reset -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f7f9fc;
+      color: #0a1e2f;
+      line-height: 1.5;
+      padding: 1rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* header */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding: 0.5rem 0;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .logo-icon {
+      background: #0b2b3f;
+      color: #ffb347;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1.4rem;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .logo-text {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #0b2b3f;
+    }
+
+    .logo-text span {
+      color: #e67e22;
+      font-weight: 800;
+    }
+
+    .badge-ksh {
+      background: #e9f2f7;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #0b2b3f;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .badge-ksh::before {
+      content: "🇰🇪";
+      font-size: 1.2rem;
+    }
+
+    /* stats strip */
+    .stats-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+      background: white;
+      padding: 1rem 1.5rem;
+      border-radius: 24px;
+      margin-bottom: 2.2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      border: 1px solid #eef2f6;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      color: #2c4a5e;
+    }
+
+    .stat-item strong {
+      font-weight: 700;
+      color: #0b2b3f;
+      background: #f0f6fa;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+    }
+
+    /* job grid */
+    .job-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .job-card {
+      background: white;
+      border-radius: 24px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+      border: 1px solid #e2eaf0;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .job-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 28px rgba(0, 0, 0, 0.06);
+      border-color: #cfdde8;
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.9rem;
+    }
+
+    .job-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0b2b3f;
+      line-height: 1.3;
+      margin-right: 0.5rem;
+    }
+
+    .job-type {
+      background: #e9f2f7;
+      color: #1e5b7a;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.7rem;
+      border-radius: 40px;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .company {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.9rem;
+      font-weight: 500;
+      color: #4e6b7e;
+      font-size: 0.95rem;
+    }
+
+    .company-icon {
+      background: #f1f7fb;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.2rem;
+      margin: 0.8rem 0 1rem;
+      font-size: 0.85rem;
+      color: #547388;
+    }
+
+    .job-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .job-description {
+      color: #395b70;
+      font-size: 0.9rem;
+      margin-bottom: 1.4rem;
+      line-height: 1.5;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .fee-tag {
+      background: #fff6e5;
+      color: #b85b14;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 1.2rem;
+      border: 1px solid #ffe1b3;
+      width: fit-content;
+    }
+
+    .fee-tag::before {
+      content: "💰";
+      font-size: 1rem;
+    }
+
+    .btn-apply {
+      background: #0b2b3f;
+      color: white;
+      border: none;
+      padding: 0.9rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+      margin-top: 0.2rem;
+      box-shadow: 0 4px 10px rgba(11, 43, 63, 0.15);
+    }
+
+    .btn-apply:hover {
+      background: #163f57;
+    }
+
+    .btn-apply .price {
+      background: #ffb347;
+      color: #0b2b3f;
+      padding: 0.25rem 0.8rem;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    /* modal (payment / apply) */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 30, 40, 0.7);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.2s ease, visibility 0.2s;
+    }
+
+    .modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 32px;
+      max-width: 480px;
+      width: 100%;
+      padding: 2rem 1.8rem;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+      position: relative;
+      transform: scale(0.96);
+      transition: transform 0.2s;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      line-height: 1;
+      cursor: pointer;
+      color: #7a94a8;
+      padding: 0.2rem 0.5rem;
+      border-radius: 40px;
+    }
+
+    .modal-close:hover {
+      background: #f0f5f9;
+      color: #0b2b3f;
+    }
+
+    .modal-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #0b2b3f;
+      margin-bottom: 0.2rem;
+    }
+
+    .modal-subtitle {
+      color: #547388;
+      font-size: 0.95rem;
+      margin-bottom: 1.6rem;
+      border-bottom: 1px solid #e2eaf0;
+      padding-bottom: 1rem;
+    }
+
+    .job-summary-modal {
+      background: #f6faff;
+      padding: 1rem 1.2rem;
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .job-summary-modal .title {
+      font-weight: 600;
+      color: #0b2b3f;
+    }
+
+    .job-summary-modal .fee {
+      background: #ffb347;
+      padding: 0.3rem 0.9rem;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin: 1.5rem 0 1.8rem;
+    }
+
+    .payment-option {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 1rem;
+      border: 1.5px solid #dae4ec;
+      border-radius: 18px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .payment-option.selected {
+      border-color: #0b2b3f;
+      background: #f1f9ff;
+      box-shadow: 0 0 0 2px rgba(11, 43, 63, 0.1);
+    }
+
+    .payment-option input[type="radio"] {
+      accent-color: #0b2b3f;
+      width: 18px;
+      height: 18px;
+      margin-right: 0.2rem;
+    }
+
+    .payment-option label {
+      font-weight: 500;
+      color: #1e3c4f;
+      flex: 1;
+      cursor: pointer;
+    }
+
+    .payment-option .mpesa-icon {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #2e7d32;
+      background: #e8f5e9;
+      padding: 0.2rem 0.6rem;
+      border-radius: 8px;
+    }
+
+    .btn-pay {
+      background: #0b2b3f;
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 1rem;
+      width: 100%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: background 0.2s;
+      margin-bottom: 0.8rem;
+    }
+
+    .btn-pay:hover {
+      background: #1a4b63;
+    }
+
+    .btn-pay:disabled {
+      background: #a0b8c7;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .disclaimer {
+      font-size: 0.75rem;
+      color: #78909c;
+      text-align: center;
+      margin-top: 0.8rem;
+    }
+
+    /* toast */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) scale(0.95);
+      background: #0b2b3f;
+      color: white;
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s;
+      z-index: 1100;
+      white-space: nowrap;
+      max-width: 90vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .toast.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) scale(1);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 0.8rem; }
+      .job-card { padding: 1.2rem; }
+      .job-title { font-size: 1.15rem; }
+      .modal-content { padding: 1.6rem 1.2rem; }
+      .logo-text { font-size: 1.4rem; }
+      .stats-bar { padding: 0.8rem 1rem; gap: 0.8rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- header -->
+  <header class="header">
+    <div class="logo-area">
+      <div class="logo-icon">K</div>
+      <div class="logo-text">Kazi<span>Link</span></div>
+    </div>
+    <div class="badge-ksh">Kenya · KSh</div>
+  </header>
+
+  <!-- stats bar: simulate data -->
+  <div class="stats-bar">
+    <div class="stat-item">🔥 <strong>243</strong> open roles</div>
+    <div class="stat-item">🏪 <strong>87</strong> supermarkets</div>
+    <div class="stat-item">🍽️ <strong>112</strong> restaurants</div>
+    <div class="stat-item">📅 updated today</div>
+  </div>
+
+  <!-- job grid -->
+  <div class="job-grid" id="jobGrid">
+    <!-- cards will be injected via JS, but we'll also put fallback static for demonstration, but JS will handle. 
+         We'll use JS to populate with rich data. -->
+  </div>
+
+  <!-- footer note -->
+  <p style="text-align: center; font-size: 0.8rem; color: #7a94a8; margin: 2rem 0 1rem;">🇰🇪 Verified jobs across Kenya · Pay KSh to apply · Secure M‑Pesa</p>
+</div>
+
+<!-- modal overlay -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-content">
+    <button class="modal-close" id="modalCloseBtn">&times;</button>
+    <div class="modal-title">Apply & pay</div>
+    <div class="modal-subtitle" id="modalJobTitle">Position</div>
+
+    <div class="job-summary-modal" id="jobSummaryModal">
+      <span class="title">Application fee</span>
+      <span class="fee" id="modalFeeAmount">KSh 200</span>
+    </div>
+
+    <p style="font-weight: 600; margin-bottom: 0.5rem; font-size: 0.95rem; color: #1e3c4f;">Pay with M‑Pesa</p>
+    <div class="payment-options" id="paymentOptions">
+      <div class="payment-option selected" data-method="mpesa">
+        <input type="radio" name="payment" id="mpesa" checked>
+        <label for="mpesa">M‑Pesa (Safaricom)</label>
+        <span class="mpesa-icon">M‑PESA</span>
+      </div>
+      <div class="payment-option" data-method="airtel">
+        <input type="radio" name="payment" id="airtel">
+        <label for="airtel">Airtel Money</label>
+        <span style="font-size: 1.1rem;">📱</span>
+      </div>
+    </div>
+
+    <button class="btn-pay" id="payAndApplyBtn">
+      <span>Pay & submit application</span>
+      <span id="payAmountLabel">KSh 200</span>
+    </button>
+    <div class="disclaimer">By continuing you agree to our terms. This is a demo — no real payment.</div>
+  </div>
+</div>
+
+<!-- toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+  (function() {
+    // ---------- JOB DATA (Kenyan supermarkets, restaurants, etc.) ----------
+    const jobsData = [
+      {
+        id: 1,
+        title: 'Cashier',
+        company: 'Naivas Supermarket',
+        companyIcon: '🛒',
+        location: 'Nairobi, CBD',
+        type: 'Full-time',
+        salary: 'KSh 32,000 – 38,000',
+        description: 'Handle customer payments, reconcile daily sales, and provide excellent service. Experience with POS preferred.',
+        fee: 200,
+      },
+      {
+        id: 2,
+        title: 'Restaurant Waiter',
+        company: 'CJ’s Restaurant',
+        companyIcon: '🍽️',
+        location: 'Westlands, Nairobi',
+        type: 'Part-time',
+        salary: 'KSh 18,000 – 22,000 + tips',
+        description: 'Serve guests, take orders, and maintain table hygiene. Prior experience in a busy restaurant is a plus.',
+        fee: 150,
+      },
+      {
+        id: 3,
+        title: 'Supermarket Stock Clerk',
+        company: 'Quickmart Supermarket',
+        companyIcon: '📦',
+        location: 'Thika Road, Nairobi',
+        type: 'Full-time',
+        salary: 'KSh 28,000 – 34,000',
+        description: 'Receive deliveries, arrange shelves, monitor stock levels, and assist with inventory counts.',
+        fee: 180,
+      },
+      {
+        id: 4,
+        title: 'Cook (Hotel & Restaurant)',
+        company: 'Kilimanjaro Jamia',
+        companyIcon: '👨‍🍳',
+        location: 'Eastleigh, Nairobi',
+        type: 'Full-time',
+        salary: 'KSh 35,000 – 45,000',
+        description: 'Prepare Kenyan and Swahili dishes. Maintain kitchen hygiene and manage food prep schedules.',
+        fee: 250,
+      },
+      {
+        id: 5,
+        title: 'Barista / Coffee Attendant',
+        company: 'Java House',
+        companyIcon: '☕',
+        location: 'Karen, Nairobi',
+        type: 'Part-time',
+        salary: 'KSh 20,000 – 25,000',
+        description: 'Brew coffee, take orders, and deliver friendly service. Training provided for the right candidate.',
+        fee: 170,
+      },
+      {
+        id: 6,
+        title: 'Bakery Assistant',
+        company: 'Broadways Bakery',
+        companyIcon: '🥖',
+        location: 'Nakuru',
+        type: 'Full-time',
+        salary: 'KSh 24,000 – 28,000',
+        description: 'Support bakers with dough preparation, packaging, and display. Early morning shifts required.',
+        fee: 150,
+      },
+      {
+        id: 7,
+        title: 'Restaurant Supervisor',
+        company: 'Talisman Restaurant',
+        companyIcon: '⭐',
+        location: 'Karen, Nairobi',
+        type: 'Full-time',
+        salary: 'KSh 45,000 – 55,000',
+        description: 'Oversee daily restaurant operations, manage staff schedules, ensure customer satisfaction.',
+        fee: 300,
+      },
+      {
+        id: 8,
+        title: 'Butchery Attendant',
+        company: 'Chandarana Foodplus',
+        companyIcon: '🥩',
+        location: 'Lavington, Nairobi',
+        type: 'Full-time',
+        salary: 'KSh 26,000 – 32,000',
+        description: 'Assist customers, weigh and package meat, maintain cleanliness, and manage stock rotation.',
+        fee: 200,
+      },
+      {
+        id: 9,
+        title: 'Dishwasher / Kitchen Helper',
+        company: 'Mama Rocks Burgers',
+        companyIcon: '🍔',
+        location: 'Kilimani, Nairobi',
+        type: 'Part-time',
+        salary: 'KSh 16,000 – 19,000',
+        description: 'Wash dishes, clean kitchen area, assist with basic prep. No experience needed – will train.',
+        fee: 100,
+      },
+      {
+        id: 10,
+        title: 'Catering Supervisor',
+        company: 'Sarova Hotels',
+        companyIcon: '🏨',
+        location: 'Mombasa',
+        type: 'Full-time',
+        salary: 'KSh 50,000 – 60,000',
+        description: 'Coordinate catering events, manage kitchen team, and ensure high-quality food presentation.',
+        fee: 350,
+      }
+    ];
+
+    // ---------- DOM references ----------
+    const jobGrid = document.getElementById('jobGrid');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+    const modalJobTitle = document.getElementById('modalJobTitle');
+    const modalFeeAmount = document.getElementById('modalFeeAmount');
+    const payAmountLabel = document.getElementById('payAmountLabel');
+    const payAndApplyBtn = document.getElementById('payAndApplyBtn');
+    const toastEl = document.getElementById('toast');
+    const paymentOptions = document.querySelectorAll('.payment-option');
+
+    // ---------- State ----------
+    let currentJob = null;          // { id, title, fee, company }
+    let selectedPaymentMethod = 'mpesa'; // mpesa or airtel
+    let toastTimeout = null;
+
+    // ---------- Helper: show toast ----------
+    function showToast(message, duration = 3000) {
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastEl.textContent = message;
+      toastEl.classList.add('show');
+      toastTimeout = setTimeout(() => {
+        toastEl.classList.remove('show');
+        toastTimeout = null;
+      }, duration);
+    }
+
+    // ---------- Render all job cards ----------
+    function renderJobs() {
+      if (!jobGrid) return;
+      jobGrid.innerHTML = jobsData.map(job => `
+        <div class="job-card" data-job-id="${job.id}">
+          <div class="job-header">
+            <div class="job-title">${escapeHtml(job.title)}</div>
+            <div class="job-type">${escapeHtml(job.type)}</div>
+          </div>
+          <div class="company">
+            <span class="company-icon">${job.companyIcon}</span>
+            <span>${escapeHtml(job.company)}</span>
+          </div>
+          <div class="job-meta">
+            <span>📍 ${escapeHtml(job.location)}</span>
+            <span>💰 ${escapeHtml(job.salary)}</span>
+          </div>
+          <div class="job-description">${escapeHtml(job.description)}</div>
+          <div class="fee-tag">Application fee: KSh ${job.fee}</div>
+          <button class="btn-apply" data-job-id="${job.id}" data-fee="${job.fee}" data-title="${escapeHtml(job.title)}" data-company="${escapeHtml(job.company)}">
+            <span>Apply now</span>
+            <span class="price">KSh ${job.fee}</span>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    // simple escape for HTML entities (prevent XSS)
+    function escapeHtml(text) {
+      if (!text) return '';
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // ---------- Open modal with job data ----------
+    function openPaymentModal(jobId, title, company, fee) {
+      currentJob = { id: jobId, title, company, fee: Number(fee) };
+      modalJobTitle.textContent = `${title} · ${company}`;
+      modalFeeAmount.textContent = `KSh ${fee}`;
+      payAmountLabel.textContent = `KSh ${fee}`;
+
+      // reset payment selection to mpesa
+      selectedPaymentMethod = 'mpesa';
+      paymentOptions.forEach(opt => {
+        opt.classList.remove('selected');
+        const radio = opt.querySelector('input[type="radio"]');
+        if (radio) radio.checked = false;
+      });
+      const firstOpt = paymentOptions[0];
+      if (firstOpt) {
+        firstOpt.classList.add('selected');
+        const radio = firstOpt.querySelector('input[type="radio"]');
+        if (radio) radio.checked = true;
+      }
+
+      modalOverlay.classList.add('active');
+    }
+
+    // ---------- Close modal ----------
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+      currentJob = null;
+    }
+
+    // ---------- Payment simulation ----------
+    function processPaymentAndApply() {
+      if (!currentJob) {
+        showToast('No job selected.');
+        return;
+      }
+
+      // disable button to prevent double click
+      payAndApplyBtn.disabled = true;
+      const originalText = payAndApplyBtn.innerHTML;
+      payAndApplyBtn.innerHTML = `<span>Processing M‑Pesa ...</span> <span>⏳</span>`;
+
+      // simulate network / payment delay
+      setTimeout(() => {
+        // restore button
+        payAndApplyBtn.disabled = false;
+        payAndApplyBtn.innerHTML = originalText;
+
+        // close modal
+        closeModal();
+
+        // success toast
+        showToast(`✅ Payment of KSh ${currentJob.fee} received. Application for "${currentJob.title}" submitted!`, 4500);
+
+        // optional: reset currentJob after toast (but we already closed)
+        currentJob = null;
+      }, 1200);
+    }
+
+    // ---------- attach event listeners ----------
+    function attachEvents() {
+      // job apply buttons (delegation)
+      jobGrid.addEventListener('click', (e) => {
+        const applyBtn = e.target.closest('.btn-apply');
+        if (!applyBtn) return;
+
+        const jobId = applyBtn.dataset.jobId;
+        const title = applyBtn.dataset.title;
+        const company = applyBtn.dataset.company;
+        const fee = applyBtn.dataset.fee;
+
+        // open modal with job details
+        openPaymentModal(jobId, title, company, fee);
+      });
+
+      // modal close
+      modalCloseBtn.addEventListener('click', closeModal);
+      modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) closeModal();
+      });
+
+      // payment option selection
+      paymentOptions.forEach(opt => {
+        opt.addEventListener('click', (e) => {
+          // avoid double toggle when clicking radio directly, but we handle
+          const radio = opt.querySelector('input[type="radio"]');
+          if (radio) radio.checked = true;
+
+          // remove selected from all
+          paymentOptions.forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+
+          // update selectedPaymentMethod
+          selectedPaymentMethod = opt.dataset.method || 'mpesa';
+        });
+      });
+
+      // pay & apply button
+      payAndApplyBtn.addEventListener('click', processPaymentAndApply);
+
+      // escape key closes modal
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+          closeModal();
+        }
+      });
+    }
+
+    // ---------- initial render ----------
+    renderJobs();
+    attachEvents();
+
+    // extra: if any fallback button outside grid? none.
+    // update stats bar dynamically (optional)
+    // but we have static stats; let's just update count to match jobsData length
+    const statOpenRoles = document.querySelector('.stat-item strong');
+    if (statOpenRoles) {
+      // we show 243, but we can change to jobsData.length for realism.
+      // but we want it to look like many jobs, keep 243 but maybe update? we'll keep both
+      // but to be accurate we can add a plus? we'll set to a bigger number in UI, but not necessary.
+      // For consistency, we could update the first strong to jobsData.length? it's fine, demo data.
+      // Let's keep original.
+    }
+  })();
+</script>
+</body>
+</html>
